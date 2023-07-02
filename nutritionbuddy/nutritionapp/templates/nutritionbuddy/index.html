@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>
+        Nutrition Buddy
+    </title>
+    {% load sass_tags %}
+    <link rel="stylesheet" type="text/css" href="{% sass_src 'nutritionbuddy/style/style.scss'  %}">
+    </head>
+    <body>
+        <div class = "main-container">
+            <div class = "form-container">
+                {% include 'nutritionbuddy/form.html' %}
+            </div>
+            <div class = "result-conatiner">
+                {% include 'nutritionbuddy/response.html' %}
+            </div>
+        </div>
+        {% load static %}
+        <script src = {% static "nutritionbuddy/script/script.js"%}></script>
+    </body>
+</html>
