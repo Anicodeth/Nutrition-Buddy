@@ -130,8 +130,18 @@ event.preventDefault();
 let spinner = document.querySelector('.spinner');
 let items = document.querySelectorAll('.recipe-container');
 let image = document.querySelector('.image-container');
+let instructions = document.querySelector('.instructions-container');
 
-image.style.display = 'none';
+if (instructions){
+  instructions.style.display = 'none';
+}
+
+
+if (image){
+  image.style.display = 'none';
+}
+
+
 
 items.forEach((item) => {
     item.style.display = 'none';
@@ -164,6 +174,7 @@ fetch(apiUrl, {
     .then((response) => {
         response.json().then((data) => {
            let apiData = data.results;
+           sessionStorage.setItem('apiData', JSON.stringify(apiData));
            console.log(apiData);
               spinner.style.display = 'none';
             displayData(apiData);
@@ -183,6 +194,7 @@ function displayData(apiData) {
     apiData.forEach((recipe) => {
         let recipeDiv = document.createElement('div');
         recipeDiv.setAttribute('class', 'recipe-container');
+        recipeDiv.setAttribute("onclick", `addRecipeDataToDiv(${recipe.id})`);
         let title = document.createElement('h4');
         title.innerHTML = recipe.title;
 
@@ -229,3 +241,46 @@ function getFirstFourSentences(paragraph) {
     return firstThreeSentences;
   }
   
+
+  function addRecipeDataToDiv( divId) {
+    const apiData = JSON.parse(sessionStorage.getItem('apiData')).find((recipe) => recipe.id === divId);
+    let div = document.createElement('div');
+    div.setAttribute('class', 'instructions-container');
+    // Create elements to display recipe data
+    const imageElement = document.createElement('img');
+    imageElement.src = apiData.image;
+    
+    const titleElement = document.createElement('h2');
+    titleElement.textContent = apiData.title;
+    
+    const summaryElement = document.createElement('p');
+    summaryElement.innerHTML = apiData.summary;
+    
+    const instructionsElement = document.createElement('ol');
+    apiData.analyzedInstructions[0].steps.forEach((step) => {
+      const stepElement = document.createElement('li');
+      stepElement.textContent = step.step;
+      instructionsElement.appendChild(stepElement);
+    });
+  
+    let display = document.getElementById('recipes-container');
+    removeElementsByClassName('recipe-container');
+    
+    div.appendChild(imageElement);
+    div.appendChild(titleElement);
+    div.appendChild(summaryElement);
+    div.appendChild(instructionsElement);
+    div.style.padding = '1rem';
+    display.appendChild(div);
+
+  
+  }
+
+
+  function removeElementsByClassName(className) {
+    const elements = document.querySelectorAll('.' + className);
+    
+    elements.forEach((element) => {
+      element.parentNode.removeChild(element);
+    });
+  }

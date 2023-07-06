@@ -74,8 +74,12 @@ body {
         display: flex;
         background-color: #F1C6C1;
         justify-content: space-between;
+        transition: 0.3s linear;
+        border-radius: 1rem;
         margin-bottom: 0.5rem;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; }
+        .main-container .functionality-container .result-container .recipe-container:hover {
+          transform: scale(1.02); }
         .main-container .functionality-container .result-container .recipe-container .recipe-text {
           display: flex;
           flex-direction: column;
