@@ -3,8 +3,12 @@ import requests
 apiKey = 'b144d0da36bb499e84bdde367e7f8919'
 url = 'https://api.spoonacular.com/recipes/complexSearch'
 
+
+
 def get_recipes(body):
+    print(body)
     body['apiKey'] = apiKey
+    body['addRecipeInformation'] = True
     try:
         response = requests.get(url, body)
         if response.status_code == 200:
